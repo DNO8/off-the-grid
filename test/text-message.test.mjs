@@ -16,6 +16,10 @@ test("the phone test is plain text, not a cheque", () => {
     ok: false,
     reason: "cheque-prefix",
   });
+  assert.deepEqual(checkPlainText("SOZU2:aa"), {
+    ok: false,
+    reason: "sync-prefix",
+  });
   assert.deepEqual(checkPlainText(""), { ok: false, reason: "empty" });
 });
 
