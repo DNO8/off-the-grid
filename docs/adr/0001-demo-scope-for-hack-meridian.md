@@ -42,6 +42,18 @@ The title says "confidential" only after that transaction is on the explorer and
 
 Also out of these 20 hours: mock USDT0, a new bitchat message type, replacing the chat UI before step 2 works, a WebView of the Sozu PWA, passkey smart accounts. Mainnet USDT0 stays a slide (`USDT0:GATISXX6BZ6NC7IKQBY37CJD4SOZL3CYZJWXEDG6JVIY4WBS6KXJHN6Q`).
 
+## Fastest Bluetooth ledger — locked 2026-10-25 16:16 UTC
+
+Joaquín confirmed Stellar Passport stays one sentence on the slide until a video shows the second spend rejected. The Bastian conversation waits on the same video.
+
+A Bluetooth ledger is three steps. Step 1 alone is a chat. Step 2 alone is a script. The meeting is step 3.
+
+1. Two Android phones. Install bitchat from Play, or `bitchat-android-arm64.apk` from the current GitHub release. Airplane mode, Bluetooth on, private message `sozu-text-1`. This proves the radios.
+2. In parallel, on a laptop: one note in a testnet vault, two software-signed cheques, the second settlement fails. This proves the ledger. No phone in this step.
+3. Glue. The private-message body is the cheque the script already accepts. Send it in airplane mode. Turn the internet back on. Submit both. The explorer shows the first payment settled and the second rejected.
+
+Passport line, said only after that explorer shot: the next account is a Stellar Passport passkey, and it registers the device key that signs offline. Passkeys, confidential tokens, and a custom iOS build are not in this MVP. Ecosystem alignment on the [Build page](https://www.hackmeridian.com/build) is 20%, tied with user value. The priority order is adoption, then discovery, then continuation.
+
 ## Kill switch
 
 | When (Lisbon) | If this is true | We do this |
