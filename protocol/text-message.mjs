@@ -15,6 +15,9 @@ export function checkPlainText(value) {
   if (value.startsWith("SOZU1:")) {
     return { ok: false, reason: "cheque-prefix" };
   }
+  if (value.startsWith("SOZU2:")) {
+    return { ok: false, reason: "sync-prefix" };
+  }
   if (Buffer.byteLength(value, "utf8") > FRAGMENT_BUDGET_BYTES) {
     return { ok: false, reason: "over-fragment" };
   }

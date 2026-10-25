@@ -4,13 +4,15 @@
     "fork": "https://github.com/Sozu-Capital/bitchat",
     "sha": "04995f68e470a18d1fc99f86fa326c2a87bab4f2",
     "license": "Unlicense",
-    "note": "HEAD of upstream main on 2026-10-25. Unmodified. This build already sends text."
+    "branch": "sozu/pin",
+    "note": "sozu/pin matches upstream main on 2026-10-25. Unmodified. This build already sends text."
   },
   "android": {
     "upstream": "https://github.com/permissionlesstech/bitchat-android",
     "fork": "https://github.com/Sozu-Capital/bitchat-android",
     "sha": "95c0852c2b9e3428d09616f11c098a8c8cb72bc3",
     "license": "GPL-3.0",
-    "note": "Last code merge on 2026-10-24, before the automated relay-data commit on 2026-10-25. Unmodified. This build already sends text. GPL-3.0 stays in that repository."
+    "branch": "sozu/pin",
+    "note": "Branch sozu/pin is 95c0852, the last code merge on 2026-10-24. Fork main had moved to the relay-data bot, so sozu/pin is the default branch. Unmodified. GPL-3.0 stays in that repository."
   }
 }
