@@ -1,0 +1,5 @@
+node_modules/
+forks/
+.DS_Store
+*.apk
+*.ipa
