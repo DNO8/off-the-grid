@@ -60,3 +60,5 @@ The uploader submits `settle` to the deployed vault, waits for a finalized trans
 ## Physical witness concept
 
 Joaco's [original blueprint](docs/media/witness/joaco-blueprint-original.png) and the [35-second concept video](docs/media/witness/sozu-witness-blueprint-concept.mp4) preview the hardware we want to build. The video animates the original blueprint without changing its annotations and closes with the spoken line above. These are proposed physical-device visuals; the ESP32-to-phone radio packet test remains pending.
+
+An [HD concept video](docs/media/witness/sozu-witness-blueprint-concept-hd.mp4) is also available. The original concept video remains above.
