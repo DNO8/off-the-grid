@@ -18,7 +18,7 @@ const fields = {
   amount: 1_000_000n,
   fee: DEMO_FEE,
   cap: 1_100_000n,
-  expiry: BigInt(Math.floor(Date.now() / 1000) + 3600),
+  expiry: BigInt(Math.floor(Date.now() / 1000) + 6 * 3600),
   owner: Buffer.from(ownerHex, "hex"),
 };
 const first = issueCheque({ ...fields, payee: Buffer.from(firstPayeeHex, "hex") }, identity.privateKey, identity.compressed);
