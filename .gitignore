@@ -2,6 +2,8 @@ node_modules/
 forks/
 .DS_Store
 *.apk
+!/landing-sozu/public/downloads/bitchat-android-arm64.apk
+!/landing-sozu/public/downloads/bitchat-android-universal.apk
 *.ipa
 
 .exponential/

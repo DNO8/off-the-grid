@@ -1,0 +1,5 @@
+node_modules/
+dist/
+src/components/react-bits/
+public/
+package-lock.json

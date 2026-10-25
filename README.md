@@ -8,6 +8,19 @@ Spoken line: **Offline Stellar payments. A second spend of the same note fails o
 
 Presenter deck: [docs/slides.md](docs/slides.md). The ESP32 board stays off the slides until Vini's 184-byte packet works.
 
+## APK download website
+
+The independent [download website](landing-sozu/README.md) lives in `landing-sozu/`. It distributes unmodified upstream Bitchat Android v2.0.3 binaries, not a Sozu mobile release. Preserve the [licenses, checksums, and corresponding-source references](landing-sozu/THIRD_PARTY_NOTICES.md).
+
+Use Node.js 22.12.0 or newer:
+
+```bash
+npm --prefix landing-sozu ci
+npm --prefix landing-sozu run dev
+```
+
+The website has its own package and lockfile; the root commands below are unchanged. See its README for typechecking, browser tests, and production builds. Serve the app from its own origin root, not a `/landing-sozu/` URL prefix. This import does not deploy the site.
+
 ## Test 01 — plain text
 
 The first test is a private message, `sozu-text-1`, from the pinned bitchat forks. Plan: [docs/prd/test-01-plain-text.md](docs/prd/test-01-plain-text.md).
