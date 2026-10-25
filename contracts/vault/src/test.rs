@@ -35,6 +35,8 @@ fn frozen_wire(env: &Env) -> Bytes {
 
 #[test]
 fn first_settle_pays_and_second_note_is_used() {
+    // Same signed note id, but a different payee and signature: two valid cheques.
+    const SECOND_WIRE_HEX: &str = "01010101010101010101010101010101010101010101010101010101010101010101020202020202020202020202020202028096980000000000a086010000000000201d9a000000000010ff5365000000000505050505050505050505050505050505050505050505050505050505050505040404040404040404040404040404040404040404040404040404040404040402de0da91a51db50590ecebe84f7708733152db212a04dae042563a84b9b7d66ce53dbde964c556bbf9206303868563587194ab047dcfb3e39fbfc8da8405ed80d1603b70935534d708b4d5dbbaca0c9fe23bb69ac15f38cadf9b23a8282f8a56f";
     let env = Env::default();
     env.mock_all_auths();
     let admin = Address::generate(&env);
@@ -57,7 +59,9 @@ fn first_settle_pays_and_second_note_is_used() {
     assert!(result.ok);
     assert_eq!(result.fee, 100_000);
     assert_eq!(token_client.balance(&first), 100_000);
-    let duplicate = vault.settle(&wire, &second);
+    let second_wire = Bytes::from_slice(&env, &hex::decode(SECOND_WIRE_HEX).unwrap());
+    assert_ne!(wire, second_wire);
+    let duplicate = vault.settle(&second_wire, &second);
     assert!(!duplicate.ok);
     assert_eq!(duplicate.reason, Some(soroban_sdk::String::from_str(&env, "note-used")));
     assert_eq!(duplicate.fee, 0);
