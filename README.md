@@ -43,3 +43,7 @@ node scripts/witness-upload.mjs --wire-json path/to/cheques.json --wire-field se
 ```
 
 The uploader submits `settle` to the deployed vault, waits for a finalized transaction, and records the note hash only after `ok: true` or on-chain `note-used`. [This Wi-Fi fallback upload](https://stellar.expert/explorer/testnet/tx/b4e5bac74a62d3e4cbf9c2e03492b15450206034f22b11155f530a1b9c6ff316) returned `note-used` and `fee: 0` for the already spent demo note. A repeat with the same local state is flagged before another submission. The state file and testnet secret stay outside Git.
+
+## Physical witness concept
+
+Joaco's [original blueprint](docs/media/witness/joaco-blueprint-original.png) and the [35-second concept video](docs/media/witness/sozu-witness-blueprint-concept.mp4) preview the hardware we want to build. The video animates the original blueprint without changing its annotations and closes with the spoken line above. These are proposed physical-device visuals; the ESP32-to-phone radio packet test remains pending.
