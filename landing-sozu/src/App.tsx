@@ -132,14 +132,14 @@ export default function App() {
           <span /> LESS SIGNAL. MORE CONNECTION.
         </div>
         <h1>
-          Bitchat.
+          Pay offline.
           <br />
-          <span>Off the grid.</span>
+          <span>No internet.</span>
         </h1>
         <p className="intro">
-          A little less online. A lot more connected.
+          Humanitarian aid, catastrophes, and any other time the signal is gone.
           <br />
-          Get Bitchat for Android. Choose your build below.
+          Choose your Android build below.
         </p>
 
         <div className="downloads" aria-label="Android APK downloads">
