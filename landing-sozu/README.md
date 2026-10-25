@@ -1,6 +1,6 @@
-# Hackmeridian APK downloads
+# Sozu Offline downloads
 
-A minimal, responsive Bitchat Android download page with exactly two download actions. React Bits **Dither Veil** powers the cards and **Ghost Fibers** powers the background. The dark palette, orange accents, and DM Sans typography take inspiration from Sozu Capital; the APKs are Bitchat, not Sozu applications.
+The Sozu Offline landing page. The navbar uses the Sozu mark, and the page explains the offline cheque before the two Android downloads. React Bits **Dither Veil** powers the cards and **Ghost Fibers** powers the background. The APKs are the official upstream Bitchat Android builds, not a Sozu application binary.
 
 ## Run locally
 

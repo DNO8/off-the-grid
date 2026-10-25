@@ -22,8 +22,15 @@ test("shows exactly two download actions and the real release identity", async (
 }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Bitchat",
+    "Pay offline",
   );
+  await expect(page.getByText("Sozu Offline")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "What it does" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "How it works" }),
+  ).toBeVisible();
   await expect(page.getByText("v2.0.3", { exact: true })).toBeVisible();
   await expect(
     page.locator("a, button, input, select, textarea, [role=button]"),

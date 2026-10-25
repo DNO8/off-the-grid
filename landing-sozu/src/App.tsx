@@ -106,18 +106,10 @@ export default function App() {
       </div>
 
       <header className="site-header">
-        <div className="wordmark" aria-label="Hackmeridian">
-          <svg
-            className="brand-mark"
-            viewBox="0 0 32 32"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path d="m16 2 4.1 9.9L30 16l-9.9 4.1L16 30l-4.1-9.9L2 16l9.9-4.1L16 2Z" />
-            <path d="M16 10v12M10 16h12" />
-          </svg>
+        <div className="wordmark">
+          <img className="brand-mark" src="/sozu-icon.png" alt="" />
           <span>
-            hackmeridian<span className="wordmark-dot">.</span>
+            Sozu Offline<span className="wordmark-dot">.</span>
           </span>
         </div>
         <div className="release-label">
@@ -199,12 +191,54 @@ export default function App() {
           Android 8.0+<span>·</span>Official upstream APKs<span>·</span>No app
           store needed
         </p>
+
+        <section className="explain" aria-label="What Sozu Offline does">
+          <h2>What it does</h2>
+          <p>
+            Two phones pay when there is no signal. One signs a cheque. The
+            other hears it over Bluetooth. Stellar accepts that note once. A
+            second spend of the same note fails on chain.
+          </p>
+          <h2>How it works</h2>
+          <ol>
+            <li>
+              <span>01</span>
+              <div>
+                <strong>Deposit</strong>
+                <p>
+                  A Sozu account holds the value. An NFC tap only opens the
+                  account. The card is not the payment.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span>02</span>
+              <div>
+                <strong>Pay offline</strong>
+                <p>
+                  The cheque moves from phone to phone. The screen says pending,
+                  then heard.
+                </p>
+              </div>
+            </li>
+            <li>
+              <span>03</span>
+              <div>
+                <strong>Settle once</strong>
+                <p>
+                  The first phone back online sends the cheque to Stellar. The
+                  screen says settled. Spending that note again fails.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </section>
       </main>
 
       <footer className="site-footer">
         <span>BUILT FOR THE IN-BETWEEN.</span>
         <span>
-          HACKMERIDIAN <span className="footer-slash">/</span> 2026
+          SOZU OFFLINE <span className="footer-slash">/</span> 2026
         </span>
       </footer>
     </div>
