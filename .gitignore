@@ -5,3 +5,5 @@ forks/
 *.ipa
 
 .exponential/
+contracts/vault/target/
+contracts/vault/test_snapshots/
