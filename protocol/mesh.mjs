@@ -1,8 +1,51 @@
+import { createHash } from "node:crypto";
 import { openCheque } from "./cheque.mjs";
 import { openCheckpoint } from "./checkpoint.mjs";
 import { settleCheque } from "./vault.mjs";
 
 export const WITNESS_PACKET_BYTES = 184;
+
+export function createWitness({ network, vault, noteHashes = [] }) {
+  const id = Buffer.from(vault);
+  if (id.length !== 32) throw new Error("vault");
+  if (!noteHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))) throw new Error("note-hash");
+  return { network, vault: id, noteHashes: new Set(noteHashes) };
+}
+
+export function witnessSnapshot(witness) {
+  return {
+    network: witness.network,
+    vaultHex: witness.vault.toString("hex"),
+    noteHashes: [...witness.noteHashes].sort(),
+  };
+}
+
+export function recordWitnessCheckpoint(witness, checkpointFrame) {
+  const checkpoint = openCheckpoint(checkpointFrame);
+  if (!checkpoint.ok) return { ok: false, reason: checkpoint.reason };
+  if (checkpoint.network !== witness.network) return { ok: false, reason: "network" };
+  if (!checkpoint.vaultPrefix.equals(witness.vault.subarray(0, 8))) {
+    return { ok: false, reason: "vault" };
+  }
+  const hash = noteHash(checkpoint.noteId);
+  const recorded = !witness.noteHashes.has(hash);
+  witness.noteHashes.add(hash);
+  return { ok: true, recorded };
+}
+
+export function inspectWitnessCheque(witness, chequeFrame) {
+  const cheque = openCheque(chequeFrame);
+  if (!cheque.ok) return { ok: false, reason: cheque.reason };
+  if (cheque.network !== witness.network) return { ok: false, reason: "network" };
+  if (!cheque.vault.equals(witness.vault)) return { ok: false, reason: "vault" };
+  return witness.noteHashes.has(noteHash(cheque.noteId))
+    ? { ok: false, reason: "note-used" }
+    : { ok: true, status: "pending" };
+}
+
+function noteHash(noteId) {
+  return createHash("sha256").update(noteId).digest("hex");
+}
 
 // Transport padding lives outside the signed SOZU2 frame. The checkpoint layout stays 131 bytes.
 export function checkpointPacket(frame) {
