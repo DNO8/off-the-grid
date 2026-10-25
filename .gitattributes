@@ -1,0 +1,2 @@
+# Preserve the upstream font license, including its original line endings.
+landing-sozu/public/notices/DM-Sans-OFL.txt -text whitespace=-blank-at-eol

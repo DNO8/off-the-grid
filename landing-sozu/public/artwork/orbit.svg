@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500">
+  <defs>
+    <linearGradient id="base" x2="1" y2="1"><stop stop-color="#21150f"/><stop offset="1" stop-color="#080a0d"/></linearGradient>
+    <radialGradient id="light"><stop stop-color="#ffac60"/><stop offset=".3" stop-color="#ee7128"/><stop offset="1" stop-color="#a33d1a"/></radialGradient>
+    <linearGradient id="rim" x1="0" x2="1"><stop stop-color="#38231c"/><stop offset=".4" stop-color="#f1aa63"/><stop offset=".7" stop-color="#ff7c2d"/><stop offset="1" stop-color="#613019"/></linearGradient>
+  </defs>
+  <path fill="url(#base)" d="M0 0h1200v500H0z"/>
+  <g transform="translate(870 260) rotate(-28)">
+    <ellipse rx="310" ry="170" fill="url(#light)"/>
+    <ellipse rx="240" ry="118" fill="#0c0e10"/>
+    <ellipse rx="309" ry="168" fill="none" stroke="url(#rim)" stroke-width="9"/>
+    <ellipse rx="270" ry="142" fill="none" stroke="#ffc391" stroke-opacity=".22" stroke-width="2"/>
+    <ellipse rx="248" ry="121" fill="none" stroke="#fa9959" stroke-width="3"/>
+    <ellipse cy="-23" rx="380" ry="213" fill="none" stroke="#f38d52" stroke-opacity=".25" stroke-width="1"/>
+    <ellipse cy="-23" rx="404" ry="229" fill="none" stroke="#f38d52" stroke-opacity=".15" stroke-width="1"/>
+  </g>
+</svg>
