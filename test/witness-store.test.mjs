@@ -17,7 +17,7 @@ test("the witness flags a second signed cheque only after settlement and stores 
   const payer = generateIdentity();
   const settler = generateIdentity();
   const vault = createVault({ network: NETWORK_TESTNET, vault: vaultId });
-  const witness = createWitness({ network: NETWORK_TESTNET, vault: vaultId });
+  const witness = createWitness({ network: NETWORK_TESTNET, vault: vaultId, checkpointKey: settler.compressed });
   assert.equal(deposit(vault, {
     owner, caller: owner, deviceKey: payer.compressed,
     collateral: 5n * USDC, lockedUntil: 2_000_000_000,
@@ -39,6 +39,9 @@ test("the witness flags a second signed cheque only after settlement and stores 
     deviceKey: settler.compressed, now: 1_800_000_000, ledgerSequence: 1234,
   });
   assert.equal(outcome.ok, true);
+  const untrusted = createWitness({ network: NETWORK_TESTNET, vault: vaultId });
+  assert.deepEqual(recordWitnessCheckpoint(untrusted, outcome.frame), { ok: false, reason: "device-key" });
+  assert.equal(untrusted.noteHashes.size, 0);
   assert.deepEqual(recordWitnessCheckpoint(witness, outcome.frame), { ok: true, recorded: true });
   assert.deepEqual(inspectWitnessCheque(witness, second), { ok: false, reason: "note-used" });
   assert.deepEqual(recordWitnessCheckpoint(witness, outcome.frame), { ok: true, recorded: false });

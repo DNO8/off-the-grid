@@ -4,5 +4,8 @@
   "type": "module",
   "scripts": {
     "test": "node --test && bash -n scripts/sync-forks.sh"
+  },
+  "dependencies": {
+    "@stellar/stellar-sdk": "^17.4.0"
   }
 }

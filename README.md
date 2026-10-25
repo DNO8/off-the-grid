@@ -31,3 +31,15 @@ The [Soroban vault](https://stellar.expert/explorer/testnet/contract/CDSCQSVWKTY
 The second transaction has an on-chain `rejected` event and no USDC transfer. The explorer marks the transaction itself successful because the contract returns a rejection result instead of reverting. The checked settler balances are `100_000` and `0` minor units respectively.
 
 `protocol/cheque-vector.json` is unchanged and remains the byte-layout test vector. Its literal expiry is in the past and its owner/payee bytes are test placeholders. The testnet cheques were freshly signed with that same 179-byte body and 64-byte low-S P-256 signature layout. Run `cargo test --manifest-path contracts/vault/Cargo.toml` for the frozen vector and same-note rejection tests; `scripts/make-testnet-cheques.mjs` creates live-layout cheques for funded testnet accounts.
+
+## Witness — ticket 7
+
+The [ESP32-S3 SuperMini sketch](firmware/witness/README.md) builds for 4 MB flash and no PSRAM with `python -m platformio run -d firmware/witness`. It advertises one BLE characteristic containing the committed [184-byte packet vector](firmware/witness/vector/checkpoint-184.json). The signed `SOZU2:` frame is 181 bytes; the final three zero bytes are transport padding. The vector uses a test-only vault and key, while referencing the note ID from the first testnet settlement. The board-to-phone packet test awaits the physical board.
+
+The laptop Wi-Fi fallback keeps SHA-256 hashes of confirmed spent note IDs in a local state file. A synced cheque with the same note ID is flagged `note-used`. To upload a live 243-byte cheque wire from a JSON file, set `SOZU_TESTNET_SECRET` to a funded testnet settler key or use `--ephemeral-testnet yes` for a throwaway Friendbot-funded settler:
+
+```bash
+node scripts/witness-upload.mjs --wire-json path/to/cheques.json --wire-field secondWire --state .exponential/witness-state.json --ephemeral-testnet yes
+```
+
+The uploader submits `settle` to the deployed vault, waits for a finalized transaction, and records the note hash only after `ok: true` or on-chain `note-used`. [This Wi-Fi fallback upload](https://stellar.expert/explorer/testnet/tx/b4e5bac74a62d3e4cbf9c2e03492b15450206034f22b11155f530a1b9c6ff316) returned `note-used` and `fee: 0` for the already spent demo note. A repeat with the same local state is flagged before another submission. The state file and testnet secret stay outside Git.

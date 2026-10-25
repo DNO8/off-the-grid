@@ -5,11 +5,13 @@ import { settleCheque } from "./vault.mjs";
 
 export const WITNESS_PACKET_BYTES = 184;
 
-export function createWitness({ network, vault, noteHashes = [] }) {
+export function createWitness({ network, vault, noteHashes = [], checkpointKey = null }) {
   const id = Buffer.from(vault);
   if (id.length !== 32) throw new Error("vault");
   if (!noteHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))) throw new Error("note-hash");
-  return { network, vault: id, noteHashes: new Set(noteHashes) };
+  const key = checkpointKey == null ? null : Buffer.from(checkpointKey);
+  if (key && key.length !== 33) throw new Error("device-key");
+  return { network, vault: id, noteHashes: new Set(noteHashes), checkpointKey: key };
 }
 
 export function witnessSnapshot(witness) {
@@ -27,10 +29,20 @@ export function recordWitnessCheckpoint(witness, checkpointFrame) {
   if (!checkpoint.vaultPrefix.equals(witness.vault.subarray(0, 8))) {
     return { ok: false, reason: "vault" };
   }
-  const hash = noteHash(checkpoint.noteId);
-  const recorded = !witness.noteHashes.has(hash);
-  witness.noteHashes.add(hash);
-  return { ok: true, recorded };
+  if (!witness.checkpointKey?.equals(checkpoint.deviceKey)) {
+    return { ok: false, reason: "device-key" };
+  }
+  return { ok: true, recorded: rememberNote(witness, checkpoint.noteId) };
+}
+
+// Call only with a finalized contract outcome, never with a simulation preview.
+export function recordWitnessChainOutcome(witness, chequeFrame, outcome) {
+  const cheque = openCheque(chequeFrame);
+  if (!cheque.ok) return { ok: false, reason: cheque.reason };
+  if (cheque.network !== witness.network) return { ok: false, reason: "network" };
+  if (!cheque.vault.equals(witness.vault)) return { ok: false, reason: "vault" };
+  if (!outcome.ok && outcome.reason !== "note-used") return { ok: false, reason: "unconfirmed" };
+  return { ok: true, recorded: rememberNote(witness, cheque.noteId) };
 }
 
 export function inspectWitnessCheque(witness, chequeFrame) {
@@ -45,6 +57,13 @@ export function inspectWitnessCheque(witness, chequeFrame) {
 
 function noteHash(noteId) {
   return createHash("sha256").update(noteId).digest("hex");
+}
+
+function rememberNote(witness, noteId) {
+  const hash = noteHash(noteId);
+  const recorded = !witness.noteHashes.has(hash);
+  witness.noteHashes.add(hash);
+  return recorded;
 }
 
 // Transport padding lives outside the signed SOZU2 frame. The checkpoint layout stays 131 bytes.
