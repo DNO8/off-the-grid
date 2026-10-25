@@ -1,6 +1,91 @@
+import { createHash } from "node:crypto";
 import { openCheque } from "./cheque.mjs";
 import { openCheckpoint } from "./checkpoint.mjs";
 import { settleCheque } from "./vault.mjs";
+
+export const WITNESS_PACKET_BYTES = 184;
+
+export function createWitness({ network, vault, noteHashes = [], checkpointKey = null }) {
+  const id = Buffer.from(vault);
+  if (id.length !== 32) throw new Error("vault");
+  if (!noteHashes.every((hash) => /^[a-f0-9]{64}$/.test(hash))) throw new Error("note-hash");
+  const key = checkpointKey == null ? null : Buffer.from(checkpointKey);
+  if (key && key.length !== 33) throw new Error("device-key");
+  return { network, vault: id, noteHashes: new Set(noteHashes), checkpointKey: key };
+}
+
+export function witnessSnapshot(witness) {
+  return {
+    network: witness.network,
+    vaultHex: witness.vault.toString("hex"),
+    noteHashes: [...witness.noteHashes].sort(),
+  };
+}
+
+export function recordWitnessCheckpoint(witness, checkpointFrame) {
+  const checkpoint = openCheckpoint(checkpointFrame);
+  if (!checkpoint.ok) return { ok: false, reason: checkpoint.reason };
+  if (checkpoint.network !== witness.network) return { ok: false, reason: "network" };
+  if (!checkpoint.vaultPrefix.equals(witness.vault.subarray(0, 8))) {
+    return { ok: false, reason: "vault" };
+  }
+  if (!witness.checkpointKey?.equals(checkpoint.deviceKey)) {
+    return { ok: false, reason: "device-key" };
+  }
+  return { ok: true, recorded: rememberNote(witness, checkpoint.noteId) };
+}
+
+// Call only with a finalized contract outcome, never with a simulation preview.
+export function recordWitnessChainOutcome(witness, chequeFrame, outcome) {
+  const cheque = openCheque(chequeFrame);
+  if (!cheque.ok) return { ok: false, reason: cheque.reason };
+  if (cheque.network !== witness.network) return { ok: false, reason: "network" };
+  if (!cheque.vault.equals(witness.vault)) return { ok: false, reason: "vault" };
+  if (!outcome.ok && outcome.reason !== "note-used") return { ok: false, reason: "unconfirmed" };
+  return { ok: true, recorded: rememberNote(witness, cheque.noteId) };
+}
+
+export function inspectWitnessCheque(witness, chequeFrame) {
+  const cheque = openCheque(chequeFrame);
+  if (!cheque.ok) return { ok: false, reason: cheque.reason };
+  if (cheque.network !== witness.network) return { ok: false, reason: "network" };
+  if (!cheque.vault.equals(witness.vault)) return { ok: false, reason: "vault" };
+  return witness.noteHashes.has(noteHash(cheque.noteId))
+    ? { ok: false, reason: "note-used" }
+    : { ok: true, status: "pending" };
+}
+
+function noteHash(noteId) {
+  return createHash("sha256").update(noteId).digest("hex");
+}
+
+function rememberNote(witness, noteId) {
+  const hash = noteHash(noteId);
+  const recorded = !witness.noteHashes.has(hash);
+  witness.noteHashes.add(hash);
+  return recorded;
+}
+
+// Transport padding lives outside the signed SOZU2 frame. The checkpoint layout stays 131 bytes.
+export function checkpointPacket(frame) {
+  if (!openCheckpoint(frame).ok) return null;
+  const bytes = Buffer.from(frame, "utf8");
+  if (bytes.length > WITNESS_PACKET_BYTES) return null;
+  const packet = Buffer.alloc(WITNESS_PACKET_BYTES);
+  bytes.copy(packet);
+  return packet;
+}
+
+export function checkpointFromPacket(packet) {
+  if (!Buffer.isBuffer(packet) || packet.length !== WITNESS_PACKET_BYTES) return null;
+  const end = packet.indexOf(0);
+  if (end < 0) return null;
+  for (let index = end; index < packet.length; index++) {
+    if (packet[index] !== 0) return null;
+  }
+  const frame = packet.subarray(0, end).toString("utf8");
+  return openCheckpoint(frame).ok ? frame : null;
+}
 
 // A phone keeps the cheque it was shown, and the checkpoints it is carrying.
 // encounter() is one meeting. It copies checkpoints only. Distance is not this module.
