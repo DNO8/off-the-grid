@@ -1,0 +1,8 @@
+{
+  "name": "sozu-offline",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test && bash -n scripts/sync-forks.sh"
+  }
+}
