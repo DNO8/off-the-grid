@@ -32,9 +32,14 @@ test("shows exactly two download actions and the real release identity", async (
     page.getByRole("heading", { name: "How it works" }),
   ).toBeVisible();
   await expect(page.getByText("v2.0.3", { exact: true })).toBeVisible();
+  await expect(page.locator(".downloads a")).toHaveCount(2);
   await expect(
-    page.locator("a, button, input, select, textarea, [role=button]"),
-  ).toHaveCount(2);
+    page.getByRole("link", { name: "GitHub repository" }),
+  ).toHaveAttribute("href", "https://github.com/Sozu-Capital/sozu-offline");
+  await expect(page.getByRole("link", { name: "Twitter" })).toHaveAttribute(
+    "href",
+    "https://x.com/sozucapital",
+  );
   for (const build of builds) {
     await expect(
       page.getByRole("link", {

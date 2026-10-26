@@ -237,6 +237,28 @@ export default function App() {
 
       <footer className="site-footer">
         <span>BUILT FOR THE IN-BETWEEN.</span>
+        <nav className="footer-links" aria-label="Sozu Offline">
+          <a
+            href="https://github.com/Sozu-Capital/sozu-offline"
+            aria-label="GitHub repository"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.68 7.68 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+            </svg>
+          </a>
+          <a
+            href="https://x.com/sozucapital"
+            aria-label="Twitter"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M12.6.75h2.45l-5.36 6.13L16 15.25h-4.94l-3.87-5.06-4.43 5.06H.3l5.73-6.55L0 .75h5.06l3.5 4.63L12.6.75Zm-.86 13.03h1.36L4.32 2.15H2.86l8.88 11.63Z" />
+            </svg>
+          </a>
+        </nav>
         <span>
           SOZU OFFLINE <span className="footer-slash">/</span> 2026
         </span>

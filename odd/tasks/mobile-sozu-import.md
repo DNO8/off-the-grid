@@ -1,6 +1,6 @@
 # Import the native Android prototype
 Objective: publish the existing native mobile work as a draft PR, not as a working payment APK or release.
-Branch: `feat/mobile-sozu-import`, base `dev` at `0133f3ac64e375c45e198ae1cd80a0936c2638b7`. Delivery: `exception-ok`, one draft PR. Runners: root Node tests and offline Android checks when an existing toolchain is available.
+Branch: `feat/mobile-sozu-import`; original `dev` base `0133f3ac64e375c45e198ae1cd80a0936c2638b7`, synchronization target `de211cd`. Delivery: `exception-ok`, one draft PR. Runners: root Node tests and offline Android checks when an existing toolchain is available.
 
 ## Specs
 
@@ -24,10 +24,17 @@ Accepted scope: "Agregar fuente y bibliotecas necesarias en mobile-sozu/, conser
 
 This choice followed the explicit forecast of 729 source files, approximately 33 MB, a change to ADR 0003's external-Android ownership rule, and one cohesive draft PR with a size exception. Preserve required upstream native libraries and executable script modes, not generated APKs or build outputs. Add a superseding ADR rather than silently rewriting the historical decision. Leave root packages, protocol, frozen vectors, fork pins, firmware, and website behavior unchanged.
 
+### S4 — Synchronize the existing PR with upstream development
+
+User request: "hay que hacer pull ya que joaco avanzó con la app".
+
+Acceptance: fetch and integrate the current `origin/dev` into the existing feature branch and draft PR, preserving both the complete imported Android snapshot and upstream work. Preserve published history without a forced push, keep the PR draft and targeting `dev`, and do not modify the original development checkouts. Check ancestry, unchanged canonical module bytes/modes, preservation of both README additions, and applicable root CI. This is upstream integration, not new payment implementation or authorization to run the testnet transaction scripts.
+
 ## Tasks
 
 - [x] T1 — S1–S3 import/documentation scope: canonical source, provenance, architecture and contributor docs preserved and independently verified; unavailable Android proof and the environmental root failure disclosed. Route: delegated direct, named reason: long-session context backstop. One bounded writer owned source, tests, and docs together; parent owns Git and this logbook. Risk: items 2 (Android identity/permission/provider isolation) and 5 (native dependencies/build environment). Commit: `cc42836cb8e44face19ee57a4487b138b55e0cf5`.
 - [x] T2 — S1–S3: assessed the immutable work unit and published [draft PR 12](https://github.com/Sozu-Capital/sozu-offline/pull/12) into `dev`, without merge, release, APK upload, or project-management mutations. Route: inline parent coordination; independent verification used the named high-risk trigger. Source commit: `cc42836cb8e44face19ee57a4487b138b55e0cf5`; native review unavailable, candidate-scoped decline explicitly authorized and validated; initial published-head CI passed. Closing evidence is a separate passive documentation unit.
+- [ ] T3 — S4: merge current `origin/dev`, verify source/upstream preservation and root checks, then update the same draft PR. Route: inline; bounded evidence found 12 incoming paths with only a clean README overlap. Commit/check evidence: pending.
 
 ## Log
 
@@ -52,3 +59,7 @@ This choice followed the explicit forecast of 729 source files, approximately 33
 - L19 — Executed the exact captured candidate-scoped decline once and validated `action: declined`, `consent: declined_this_candidate`, and the same target identity. Re-entered negotiated STATUS, which offered the unchanged START; did not execute it because the user had explicitly skipped this candidate. Review mode remains enabled. Native review is unavailable/skipped, not approved; no older website lineage or receipt was reused.
 - L20 — Pushed `feat/mobile-sozu-import` with upstream `origin/feat/mobile-sozu-import` and created exactly one draft PR: https://github.com/Sozu-Capital/sozu-offline/pull/12. Confirmed OPEN, draft, base `dev`, head source commit `cc42836`, author DNO8. No merge, release, generated APK upload or project-management mutation was performed.
 - L21 — Initial published source-head checks all passed: both `text-contract` push/PR runs, Vercel, and Vercel Preview Comments. This adds current root CI evidence, not Android build/payment/device proof. The local offline install/test failures and unavailable native checks remain documented in `SOZU.md` and the PR. Final passive closing-note CI is observed separately; source files are unchanged by those notes.
+- L22 — User correction verbatim: "hay que hacer pull ya que joaco avanzó con la app".
+- L23 — Fetched `origin/dev` from `0133f3a` to `de211cd`: four incoming commits, 12 paths, web/footer and testnet-ledger work, no `mobile-sozu/` changes. `git merge-tree --write-tree --messages HEAD origin/dev` succeeded and automatically combined the only overlap, README. Use a normal merge to preserve the already-published feature history; no rebase or forced push is needed.
+- L24 — Engram mirror synchronization is pending: observation 397 still ends at L16, while the local feature document includes the observed publication and new S4 request. Two save attempts could not confirm memory-session registration; project detection still resolves this worktree correctly. Preserve the local log and resynchronize when available rather than blocking safe Git work.
+- L25 — The normal merge stopped before commit without conflicts. All `mobile-sozu/` bytes/modes and import attributes equal the pre-merge feature head; upstream root code, active workflows, packages, protocol/pins, firmware, web, scripts, tests and ledger evidence equal `origin/dev`. README retains both the Android entry and Vini traffic section. Focused `node --test test/offline-ledger-api.test.mjs` passed 2/2; `npm test` observed 22 passes and the same one missing-Stellar-SDK failure; separate shell syntax passed and ledger hashes remained unchanged. No testnet transaction script ran. Test-first exception: preserving existing upstream behavior, not adding a product rule.
