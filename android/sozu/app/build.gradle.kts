@@ -14,6 +14,7 @@ val normalizedGithubReleaseCertSha256 = githubReleaseCertSha256.get()
     .replace(":", "")
     .trim()
     .lowercase()
+val standaloneTestBuild = providers.gradleProperty("sozuTestBuild").map { it.toBoolean() }.orElse(false).get()
 require(
     normalizedGithubReleaseCertSha256.isEmpty() ||
         normalizedGithubReleaseCertSha256.matches(Regex("[a-f0-9]{64}"))
@@ -27,7 +28,8 @@ android {
     buildToolsVersion = libs.versions.buildTools.get()
 
     defaultConfig {
-        applicationId = "capital.sozu.mesh"
+        applicationId = if (standaloneTestBuild) "capital.sozu.mesh.testnet" else "capital.sozu.mesh"
+        manifestPlaceholders["sozuAppLabel"] = if (standaloneTestBuild) "Sozu Testnet" else "@string/app_name"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 46
