@@ -375,6 +375,28 @@ h1 > span {
   margin: 0 12px;
   color: #8e5634;
 }
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.footer-links a {
+  display: flex;
+  color: inherit;
+}
+.footer-links svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+.footer-links a:hover {
+  color: var(--accent);
+}
+.footer-links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
 .hero {
   animation: arrive 850ms ease-out both;
 }
