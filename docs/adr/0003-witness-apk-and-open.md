@@ -2,6 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-10-25
+- Scoped supersession: [ADR 0004](0004-android-app-in-monorepo.md) supersedes only the Android source-ownership clause in "The APK"; the other decisions below remain unchanged.
 - Author: Joaquín
 - Amends: ADR 0001 demo open and the "we do not demo NFC" line. Amends ADR 0002 by adding the room witness. Does not change the spoken line, the cheque bytes, or the `SOZU2:` layout.
 

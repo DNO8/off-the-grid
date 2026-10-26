@@ -8,6 +8,19 @@ Spoken line: **Offline Stellar payments. A second spend of the same note fails o
 
 Presenter deck: [docs/slides.md](docs/slides.md). The ESP32 board stays off the slides until Vini's 184-byte packet works.
 
+## Native Android prototype — WIP
+
+[`mobile-sozu/`](mobile-sozu/SOZU.md) contains the Kotlin/Compose chat/mesh fork, **not a functional Sozu payment release**. Inherited `/pay` is Cashu, not Stellar. See the module note for provenance, [GPL-3.0 licensing](mobile-sozu/LICENSE.md), known limitations, and current verification evidence.
+
+Build independently with JDK 21 and the pinned Android SDK/Gradle toolchain:
+
+```bash
+cd mobile-sozu
+./gradlew :app:assembleDebug --offline --no-daemon
+```
+
+On Windows use `gradlew.bat`. Root npm commands and CI do not verify Android; nested upstream workflows are historical module source, not active root workflows. [ADR 0004](docs/adr/0004-android-app-in-monorepo.md) records the ownership change without changing the external Test 01 pins.
+
 ## APK download website
 
 The independent [download website](landing-sozu/README.md) lives in `landing-sozu/`. It distributes unmodified upstream Bitchat Android v2.0.3 binaries, not a Sozu mobile release. Preserve the [licenses, checksums, and corresponding-source references](landing-sozu/THIRD_PARTY_NOTICES.md).

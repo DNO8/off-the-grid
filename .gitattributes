@@ -1,2 +1,10 @@
 # Preserve the upstream font license, including its original line endings.
 landing-sozu/public/notices/DM-Sans-OFL.txt -text whitespace=-blank-at-eol
+
+# Preserve inherited Android whitespace without changing text normalization.
+mobile-sozu/** whitespace=-blank-at-eol,-blank-at-eof,-space-before-tab
+# Preserve the canonical CRLF bytes already stored in these upstream blobs.
+mobile-sozu/gradlew.bat -text
+mobile-sozu/app/src/main/assets/nostr_relays.csv -text
+# Authored integration documentation retains ordinary whitespace checks.
+mobile-sozu/SOZU.md whitespace=blank-at-eol,blank-at-eof,space-before-tab
