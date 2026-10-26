@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test && bash -n scripts/sync-forks.sh"
+    "test": "node --test && bash -n scripts/sync-forks.sh && bash -n scripts/apply-android-overlay.sh"
   },
   "dependencies": {
     "@stellar/stellar-sdk": "^17.4.0"
