@@ -49,7 +49,7 @@ El script solo lee: no construye, firma ni envía transacciones.
 cargo test --manifest-path contracts/vault/Cargo.toml
 ```
 
-Resultado local: 3 pruebas del contrato aprobadas; las 24 pruebas Node de protocolo y witness también aprobaron. La prueba usa autorización simulada y un token de prueba; no demuestra por sí sola el onboarding Android ni el comportamiento de autenticación del teléfono.
+Resultado local: 3 pruebas del contrato aprobadas; las 25 pruebas Node de protocolo, overlay y witness también aprobaron. La prueba usa autorización simulada y un token de prueba; no demuestra por sí sola el onboarding Android ni el comportamiento de autenticación del teléfono.
 
 ## Corrección sugerida para la demo
 
