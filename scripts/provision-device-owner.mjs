@@ -1,8 +1,8 @@
 import { execFile } from "node:child_process";
 import { ECDH, randomUUID } from "node:crypto";
-import { mkdirSync, realpathSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, realpathSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
-import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import {
@@ -10,7 +10,6 @@ import {
 } from "@stellar/stellar-sdk";
 import { TESTNET_RPC, TESTNET_VAULT } from "./witness-upload.mjs";
 
-const repoRoot = realpathSync(fileURLToPath(new URL("..", import.meta.url)));
 const issuer = "GBBD47IF6LWK7P7MDEVSCWR7DPUWV3NY3DTQEVFL4NAT4AQH3ZLLFLA5";
 const usdcContract = "CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA";
 const collateral = 100_000_000n; // 10 fresh testnet USDC; never use the demo owner.
@@ -24,11 +23,13 @@ export async function provisionDeviceOwner({
   ECDH.convertKey(key, "prime256v1"); // Validate the curve point before claiming funds.
   if (!Number.isSafeInteger(now) || now <= 0) throw new Error("Invalid provisioning time");
   const output = resolve(outputDirectory);
-  const parent = realpathSync(dirname(output));
-  const withinRepo = relative(repoRoot, parent);
-  const outsideRepo = withinRepo === ".." || withinRepo.startsWith(`..${sep}`) || isAbsolute(withinRepo);
-  if (!outsideRepo) {
-    throw new Error("Wallet output must be outside the repository");
+  let parent = realpathSync(dirname(output));
+  // Check every ancestor, including linked worktrees and other local checkouts.
+  while (true) {
+    if (existsSync(join(parent, ".git"))) throw new Error("Wallet output must be outside every Git checkout");
+    const ancestor = dirname(parent);
+    if (ancestor === parent) break;
+    parent = ancestor;
   }
   // Refuse to reuse any session directory or overwrite an earlier wallet.
   mkdirSync(output, { mode: 0o700 });

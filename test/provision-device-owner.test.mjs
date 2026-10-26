@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, readdirSync, rmSync, rmdirSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, rmdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { Keypair } from "@stellar/stellar-sdk";
 import { provisionDeviceOwner } from "../scripts/provision-device-owner.mjs";
@@ -41,8 +42,41 @@ test("fresh faucet owner deposits for the phone key and exports only a public re
     assert.equal(JSON.parse(readFileSync(join(outputDirectory, "wallet-claim.private.json"), "utf8")).wallet.secret === wallet.secret(), true);
   } finally {
     // Only unlink files in the exact temporary directory created by this test.
-    for (const name of readdirSync(outputDirectory)) rmSync(join(outputDirectory, name));
-    rmdirSync(outputDirectory);
+    if (existsSync(outputDirectory)) {
+      for (const name of readdirSync(outputDirectory)) rmSync(join(outputDirectory, name));
+      rmdirSync(outputDirectory);
+    }
+    rmdirSync(root);
+  }
+});
+
+test("refuses wallet storage inside a Git checkout before claiming funds", async () => {
+  let claimed = false;
+  await assert.rejects(provisionDeviceOwner({
+    deviceKey, outputDirectory: fileURLToPath(new URL("../scripts/unused-private-owner", import.meta.url)),
+    claimNewWallet: async () => { claimed = true; }, deposit: async () => depositHash,
+  }), /outside every Git checkout/);
+  assert.equal(claimed, false);
+});
+
+test("failed claim preserves the fresh private wallet locally and never deposits", async () => {
+  const root = mkdtempSync(join(tmpdir(), "sozu-owner-test-"));
+  const outputDirectory = join(root, "session");
+  let deposited = false;
+  try {
+    await assert.rejects(provisionDeviceOwner({
+      deviceKey, outputDirectory,
+      claimNewWallet: async () => ({ success: false, reason: "ip_limit", wallet: { generated: true } }),
+      deposit: async () => { deposited = true; },
+    }), /Fresh faucet claim failed/);
+    assert.equal(deposited, false);
+    assert.equal(existsSync(join(outputDirectory, "wallet-claim.private.json")), true);
+    assert.equal(existsSync(join(outputDirectory, "owner-receipt.json")), false);
+  } finally {
+    if (existsSync(outputDirectory)) {
+      for (const name of readdirSync(outputDirectory)) rmSync(join(outputDirectory, name));
+      rmdirSync(outputDirectory);
+    }
     rmdirSync(root);
   }
 });
