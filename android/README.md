@@ -59,5 +59,10 @@ USDC trustline.
 `Android checks` compiles the overlay on the pinned upstream tree and runs the
 Sozu payment unit tests without signing or publishing an APK. Before claiming
 the mobile flow works, test the import, biometric signature, mesh transport and
-submission endpoint on a physical phone. This change does not deploy or validate
-the external `/api/offline/submit` service.
+submission endpoint on a physical phone. This change does not deploy the external
+`/api/offline/submit` service.
+
+On 2026-10-26, read-only integration checks found HTTP 404 from both GET and a
+POST with an empty JSON object to `https://app.sozu.capital/api/offline/submit`.
+No cheque was sent. That service must be made available and its settlement
+authorization checked before claiming automatic upload from the phone works.

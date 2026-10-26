@@ -333,7 +333,10 @@ fun SozuPayScreen(
                             ?: throw IllegalArgumentException("Your Stellar address is not valid")
                         val now = System.currentTimeMillis() / 1000L
                         val lockedUntil = SozuWallet.lockedUntil(context)
-                        check(lockedUntil > now) { "Testnet deposit expired; link a fresh account" }
+                        if (lockedUntil <= now) {
+                            owner = ""
+                            throw IllegalStateException("Testnet deposit expired; link a fresh account")
+                        }
                         val body = SozuCheque.encodeBody(
                             vault = SozuCheque.vaultId(),
                             noteId = SozuCheque.randomNoteId(),

@@ -72,7 +72,7 @@ async function claimFromFaucet() {
 }
 
 async function depositOwner({ signer, deviceKey, collateral: amount, lockedUntil }) {
-  const accountResponse = await fetch(`https://horizon-testnet.stellar.org/accounts/${signer.publicKey()}`);
+  const accountResponse = await fetch(`https://horizon-testnet.stellar.org/accounts/${signer.publicKey()}`, { signal: AbortSignal.timeout(20_000) });
   if (!accountResponse.ok) throw new Error("New testnet account is unavailable; no deposit submitted");
   const accountData = await accountResponse.json();
   const balance = accountData.balances.find((entry) => entry.asset_code === "USDC" && entry.asset_issuer === issuer);
