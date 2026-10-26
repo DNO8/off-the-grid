@@ -21,6 +21,10 @@ npm --prefix landing-sozu run dev
 
 The website has its own package and lockfile; the root commands below are unchanged. See its README for typechecking, browser tests, and production builds. Serve the app from its own origin root, not a `/landing-sozu/` URL prefix. This import does not deploy the site.
 
+## Sozu mesh APK
+
+Sozu pay releases live on this repository: https://github.com/Sozu-Capital/sozu-offline/releases. Download `sozu-offline-pay.apk`. The Sozu changes are `android/sozu`, applied onto the pinned bitchat-android tree. They are not published from the bitchat-android fork. See [android/README.md](android/README.md).
+
 ## Test 01 — plain text
 
 The first test is a private message, `sozu-text-1`, from the pinned bitchat forks. Plan: [docs/prd/test-01-plain-text.md](docs/prd/test-01-plain-text.md).

@@ -1,5 +1,6 @@
 node_modules/
 forks/
+build/
 .DS_Store
 *.apk
 !/landing-sozu/public/downloads/bitchat-android-arm64.apk

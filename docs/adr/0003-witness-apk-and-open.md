@@ -38,7 +38,7 @@ The board does not speak bitchat. A phone in range relays. The ceramic antenna i
 
 ## The APK
 
-The new Android app is the Sozu Capital fork of bitchat-android. GPL-3.0 stays in that repo. sozu-offline does not vendor the tree. The Bluetooth stack stays bitchat. `SOZU1:` and `SOZU2:` stay ordinary texts.
+The Android app is released from this repository. `android/sozu` holds the Sozu changes. The build checks out bitchat-android at the pin in `forks.json` and applies that overlay. GitHub releases of sozu-offline carry `sozu-offline-pay.apk`. The bitchat-android fork stays the unmodified pin. GPL-3.0 applies to the mesh app. The Bluetooth stack stays bitchat. `SOZU1:` and `SOZU2:` stay ordinary texts.
 
 Sozu wallet needs an update so a Sozu account can log in on this APK and pay. The logged-in account is the owner. The device key still signs the cheque. The owner key still rotates and withdraws. Seeds are not written into this page.
 
