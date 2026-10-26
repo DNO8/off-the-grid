@@ -28,7 +28,7 @@ android {
     buildToolsVersion = libs.versions.buildTools.get()
 
     defaultConfig {
-        applicationId = if (standaloneTestBuild) "capital.sozu.mesh.testnet" else "capital.sozu.mesh"
+        applicationId = "capital.sozu.mesh"
         manifestPlaceholders["sozuAppLabel"] = if (standaloneTestBuild) "Sozu Testnet" else "@string/app_name"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
@@ -55,6 +55,7 @@ android {
 
     buildTypes {
         debug {
+            if (standaloneTestBuild) applicationIdSuffix = ".testnet"
             ndk {
                 // Include x86_64 for emulator support during development
                 abiFilters += listOf("arm64-v8a", "x86_64", "armeabi-v7a", "x86")
