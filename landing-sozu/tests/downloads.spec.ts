@@ -17,13 +17,32 @@ const builds = [
   },
 ];
 
+test("uses Off the Grid branding throughout the page and metadata", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page).toHaveTitle("Off the Grid — Android downloads");
+  await expect(page.locator(".wordmark")).toHaveAttribute(
+    "aria-label",
+    "Off the Grid",
+  );
+  await expect(page.locator(".wordmark")).toContainText("Off the Grid");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    /Off the\s+Grid\./,
+  );
+  await expect(page.locator(".site-footer")).toContainText("OFF THE GRID");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    "Off the Grid. Download the ARM64 or universal Android APK.",
+  );
+  await expect(page.locator("body")).not.toContainText(/sozu|hackmeridian/i);
+});
+
 test("shows exactly two download actions and the real release identity", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Bitchat",
-  );
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Grid.");
   await expect(page.getByText("v2.0.3", { exact: true })).toBeVisible();
   await expect(
     page.locator("a, button, input, select, textarea, [role=button]"),

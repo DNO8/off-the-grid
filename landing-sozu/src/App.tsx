@@ -106,7 +106,7 @@ export default function App() {
       </div>
 
       <header className="site-header">
-        <div className="wordmark" aria-label="Hackmeridian">
+        <div className="wordmark" aria-label="Off the Grid">
           <svg
             className="brand-mark"
             viewBox="0 0 32 32"
@@ -117,7 +117,7 @@ export default function App() {
             <path d="M16 10v12M10 16h12" />
           </svg>
           <span>
-            hackmeridian<span className="wordmark-dot">.</span>
+            Off the Grid<span className="wordmark-dot">.</span>
           </span>
         </div>
         <div className="release-label">
@@ -132,14 +132,13 @@ export default function App() {
           <span /> LESS SIGNAL. MORE CONNECTION.
         </div>
         <h1>
-          Bitchat.
-          <br />
-          <span>Off the grid.</span>
+          Off the <br />
+          <span>Grid.</span>
         </h1>
         <p className="intro">
-          A little less online. A lot more connected.
+          A BLE mesh for confidential offline payments on Stellar
           <br />
-          Get Bitchat for Android. Choose your build below.
+          Get It for Android. Choose your build below.
         </p>
 
         <div className="downloads" aria-label="Android APK downloads">
@@ -204,7 +203,7 @@ export default function App() {
       <footer className="site-footer">
         <span>BUILT FOR THE IN-BETWEEN.</span>
         <span>
-          HACKMERIDIAN <span className="footer-slash">/</span> 2026
+          OFF THE GRID <span className="footer-slash">/</span> 2026
         </span>
       </footer>
     </div>

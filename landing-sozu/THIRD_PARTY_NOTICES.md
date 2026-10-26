@@ -2,7 +2,7 @@
 
 ## Bitchat Android
 
-The download files are unmodified upstream Bitchat Android **v2.0.3** binaries, copied from the local Hackmeridian release artifacts. They are not locally rebuilt, modified, or represented as Sozu software.
+The download files are unmodified upstream Bitchat Android **v2.0.3** binaries, copied from local release artifacts. They are not locally rebuilt or modified. Off the Grid is the website brand, not the identity of these upstream applications.
 
 - Upstream release: <https://github.com/permissionlesstech/bitchat-android/releases/tag/v2.0.3>
 - Corresponding source: <https://github.com/permissionlesstech/bitchat-android/archive/refs/tags/v2.0.3.zip>
@@ -24,4 +24,4 @@ DM Sans is self-hosted under the SIL Open Font License 1.1. Its license is retai
 
 ## Other software
 
-React, React DOM, Vite, OGL, TypeScript, Playwright, and Prettier retain their respective upstream licenses in the installed packages. No Sozu Capital logos or proprietary artwork are included. The original orbit illustration and Hackmeridian mark were created for this page.
+React, React DOM, Vite, OGL, TypeScript, Playwright, and Prettier retain their respective upstream licenses in the installed packages. No third-party brand logos or proprietary artwork are included. The original orbit illustration and abstract site mark were created for this page.
