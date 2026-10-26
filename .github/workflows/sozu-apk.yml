@@ -1,0 +1,92 @@
+name: Sozu APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version, such as 0.1.5
+        required: true
+        type: string
+      notes:
+        description: Release notes
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  SETUP_JAVA_VERSION: 21.0.11+10.0.LTS
+
+jobs:
+  apk:
+    name: Sign and publish Sozu APK
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout sozu-offline
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Read android pin
+        id: pin
+        run: |
+          sha="$(node -e "process.stdout.write(JSON.parse(require('fs').readFileSync('forks.json','utf8')).android.sha)")"
+          echo "sha=$sha" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout bitchat-android pin
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          repository: permissionlesstech/bitchat-android
+          ref: ${{ steps.pin.outputs.sha }}
+          path: build/bitchat-android
+
+      - name: Apply Sozu overlay
+        run: ./scripts/apply-android-overlay.sh build/bitchat-android
+
+      - name: Set up pinned JDK
+        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5
+        with:
+          distribution: temurin
+          java-version: ${{ env.SETUP_JAVA_VERSION }}
+
+      - name: Set up and validate Gradle
+        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+
+      - name: Build debug APK
+        working-directory: build/bitchat-android
+        run: ./gradlew :app:assembleDebug
+
+      - name: Sign with the Sozu key
+        env:
+          SOZU_STORE_B64: ${{ secrets.SOZU_STORE_B64 }}
+          SOZU_STORE_PASS: ${{ secrets.SOZU_STORE_PASS }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SOZU_STORE_B64}" ] || [ -z "${SOZU_STORE_PASS}" ]; then
+            echo "error: add SOZU_STORE_B64 and SOZU_STORE_PASS to Sozu-Capital/sozu-offline Actions secrets" >&2
+            exit 1
+          fi
+          printf '%s' "$SOZU_STORE_B64" | base64 -d > "$RUNNER_TEMP/sozu.p12"
+          APK="$(ls build/bitchat-android/app/build/outputs/apk/debug/*universal*.apk | head -1)"
+          SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          APKSIGNER="$(ls "$SDK"/build-tools/*/apksigner | sort | tail -1)"
+          "$APKSIGNER" sign --ks "$RUNNER_TEMP/sozu.p12" --ks-key-alias sozu --ks-pass "pass:$SOZU_STORE_PASS" --out sozu-offline-pay.apk "$APK"
+          "$APKSIGNER" verify --verbose sozu-offline-pay.apk
+
+      - name: Publish release on sozu-offline
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+          RELEASE_NOTES: ${{ inputs.notes }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "error: version must look like 0.1.5" >&2
+            exit 1
+          fi
+          tag="sozu-apk-$VERSION"
+          gh release create "$tag" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "${{ github.sha }}" \
+            --title "Sozu offline pay $VERSION" \
+            --notes "$RELEASE_NOTES" \
+            sozu-offline-pay.apk

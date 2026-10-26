@@ -24,7 +24,7 @@ Two people standing together with no internet need to pass a Stellar cheque from
 
 ## Solution
 
-Use the Sozu Capital fork of bitchat-android at `95c0852c2b9e3428d09616f11c098a8c8cb72bc3` (https://github.com/Sozu-Capital/bitchat-android). Install a debug APK on two phones. Prove plain text first. In parallel, prove the vault with a laptop script. Then put that cheque in the private message.
+Install `sozu-offline-pay.apk` from a GitHub release of this repository. That build applies `android/sozu` onto bitchat-android at `95c0852c2b9e3428d09616f11c098a8c8cb72bc3`. Prove plain text first. In parallel, prove the vault with a laptop script. Then put that cheque in the private message.
 
 The crowd breaks it by tapping one attack action on the demo phone, which signs the same note again. The honest path refuses a second signature. The attack action exists only in this demo build.
 
@@ -72,7 +72,7 @@ Seams for `tdd`:
 
 ### Implementation decisions
 
-Pin: `95c0852c2b9e3428d09616f11c098a8c8cb72bc3` on https://github.com/Sozu-Capital/bitchat-android. GPL-3.0 stays in that repo. sozu-offline does not vendor the tree. `./scripts/sync-forks.sh` checks it out under `forks/android`, which is gitignored.
+Pin: `95c0852c2b9e3428d09616f11c098a8c8cb72bc3` on https://github.com/Sozu-Capital/bitchat-android. The pin stays unmodified. Sozu changes live in `android/sozu` and APK releases live on this repository. `./scripts/sync-forks.sh` checks the pin out under `forks/android`, which is gitignored. `./scripts/apply-android-overlay.sh` copies the Sozu changes onto that checkout.
 
 Checked at that commit:
 
