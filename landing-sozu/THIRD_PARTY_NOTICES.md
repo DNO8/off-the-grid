@@ -1,8 +1,14 @@
 # Third-party notices
 
-## Bitchat Android
+## Sozu Offline download
 
-The download files are unmodified upstream Bitchat Android **v2.0.3** binaries, copied from local release artifacts. They are not locally rebuilt or modified. Off the Grid is the website brand, not the identity of these upstream applications.
+The active download links to the APK hosted by [Sozu Offline releases](https://github.com/Sozu-Capital/sozu-offline/releases/latest). This website does not build, modify, re-sign, or bundle that APK. The permanent download URL expects the asset name `sozu-offline-pay.apk`.
+
+The release inspected on 2026-10-26 was `sozu-apk-0.1.12`. Its release notes identify the Android fork source as [Sozu-Capital/bitchat-android](https://github.com/Sozu-Capital/bitchat-android), commit [`77356d7`](https://github.com/Sozu-Capital/bitchat-android/commit/77356d7). This source reference applies to that release only; consult each future release for its corresponding source and notices. Linking to a release does not constitute an independent security, signing-certificate, or payment audit.
+
+## Legacy Bitchat Android assets
+
+The retained files `public/downloads/bitchat-android-arm64.apk` and `public/downloads/bitchat-android-universal.apk` are unmodified upstream Bitchat Android **v2.0.3** binaries, copied from local release artifacts. They are not locally rebuilt or modified, and are no longer linked from the page. Off the Grid is the website brand, not the identity of these upstream applications.
 
 - Upstream release: <https://github.com/permissionlesstech/bitchat-android/releases/tag/v2.0.3>
 - Corresponding source: <https://github.com/permissionlesstech/bitchat-android/archive/refs/tags/v2.0.3.zip>

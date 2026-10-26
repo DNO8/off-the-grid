@@ -6,20 +6,11 @@ const DitherVeil = lazy(() => import("./components/react-bits/DitherVeil"));
 
 const builds = [
   {
-    name: "ARM64",
-    file: "bitchat-android-arm64.apk",
-    label: "01 / RECOMMENDED",
-    description: "For most Android phones",
-    size: "20.0 MB",
+    name: "Sozu Offline",
+    url: "https://github.com/Sozu-Capital/sozu-offline/releases/latest/download/sozu-offline-pay.apk",
+    label: "01 / LATEST APK",
+    description: "Latest Android build, direct from GitHub",
     primary: true,
-  },
-  {
-    name: "Universal",
-    file: "bitchat-android-universal.apk",
-    label: "02 / WIDER COMPATIBILITY",
-    description: "One APK. More architectures.",
-    size: "51.9 MB",
-    primary: false,
   },
 ];
 
@@ -123,7 +114,7 @@ export default function App() {
         <div className="release-label">
           <span className="status-dot" />
           <span>ANDROID RELEASE</span>
-          <span className="version">v2.0.3</span>
+          <span className="version">LATEST RELEASE</span>
         </div>
       </header>
 
@@ -136,9 +127,9 @@ export default function App() {
           <span>Grid.</span>
         </h1>
         <p className="intro">
-          A BLE mesh for confidential offline payments on Stellar
+          Sozu Offline for Android.
           <br />
-          Get It for Android. Choose your build below.
+          Get the latest published APK, directly from GitHub.
         </p>
 
         <div className="downloads" aria-label="Android APK downloads">
@@ -146,9 +137,8 @@ export default function App() {
             <a
               key={build.name}
               className={`download-card${build.primary ? " download-card-primary" : ""}`}
-              href={`/downloads/${build.file}`}
-              download={build.file}
-              aria-label={`Download Bitchat ${build.name} APK`}
+              href={build.url}
+              aria-label={`Download latest ${build.name} APK`}
             >
               <div className="card-visual" aria-hidden="true">
                 {effects && (
@@ -181,11 +171,7 @@ export default function App() {
                 </div>
                 <div>
                   <span className="card-title">Download {build.name}</span>
-                  <span className="card-description">
-                    {build.description}
-                    <span className="separator">·</span>
-                    {build.size}
-                  </span>
+                  <span className="card-description">{build.description}</span>
                 </div>
               </div>
             </a>
@@ -195,7 +181,7 @@ export default function App() {
           <span className="android-symbol" aria-hidden="true">
             ↳
           </span>{" "}
-          Android 8.0+<span>·</span>Official upstream APKs<span>·</span>No app
+          Sozu Offline<span>·</span>Published on GitHub<span>·</span>No app
           store needed
         </p>
       </main>
